@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OneBeyondApi;
 using OneBeyondApi.DataAccess;
 
@@ -8,6 +9,7 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBorrowerRepository, BorrowerRepository>();
 builder.Services.AddScoped<ICatalogueRepository, CatalogueRepository>();
+builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 
 // Seed test data into memory DB
 SeedData.SetInitialData();
