@@ -4,6 +4,6 @@ namespace OneBeyondApi.DataAccess
 {
     public interface ILoanRepository
     {
-        public List<LoanDetail> GetLoans();
+        public Task<List<LoanDetail>> GetActiveLoans();
     }
 }
