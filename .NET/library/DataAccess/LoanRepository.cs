@@ -25,5 +25,22 @@ namespace OneBeyondApi.DataAccess
                 return activeLoans;
             }
         }
+
+        public async Task<Response> ReturnBook(Guid bookStockId)
+        {
+
+            using (var context = new LibraryContext())
+            {
+                var bookStock = await context.Catalogue.FindAsync(bookStockId);
+                if (bookStock is null)
+                    return new Response(false, $"Id not found");
+                if(!bookStock.LoanEndDate.HasValue || bookStock.OnLoanTo == null)
+                    return new Response(false, $"This book is not on loan");
+                bookStock.LoanEndDate = null;
+                bookStock.OnLoanTo = null;
+                await context.SaveChangesAsync();
+                return  new Response(true, $"Book {bookStock.Book.Name} returned successfully"); ;
+            }
+        }
     }
 }
