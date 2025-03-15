@@ -18,5 +18,15 @@
             OnLoanTo = null;
             return new Response(true, $"Book {Book.Name} returned successfully");
         }
+
+        public decimal CalculateFine()
+        {
+            if (LoanEndDate.HasValue && LoanEndDate.Value < DateTime.Now)
+            {
+                var daysLate = (DateTime.Now - LoanEndDate.Value).Days;
+                return daysLate * 1.0m; // Assuming a fine of $1 per day late
+            }
+            return 0;
+        }
     }
 }
