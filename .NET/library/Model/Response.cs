@@ -1,4 +1,8 @@
 ﻿namespace OneBeyondApi.Model
 {
-    public record Response(bool Flag = false, string message = null!);
+    public class Response(bool flag, string message)
+    {
+        public bool Flag { get; set; } = flag;
+        public string Message { get; set; } = message;
+    }
 }

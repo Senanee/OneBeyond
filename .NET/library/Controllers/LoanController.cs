@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OneBeyondApi.DataAccess;
 using OneBeyondApi.Model;
+using OneBeyondApi.Service;
 
 namespace OneBeyondApi.Controllers
 {
@@ -9,12 +10,14 @@ namespace OneBeyondApi.Controllers
     public class LoanController : ControllerBase
     {
         private readonly ILogger<LoanController> _logger;
-        private readonly ILoanRepository _loanRepository;
+        private readonly ILoanService _loanService;
+        private readonly IFineService _fineService;
 
-        public LoanController(ILogger<LoanController> logger, ILoanRepository loanRepository)
+        public LoanController(ILogger<LoanController> logger, ILoanService loanService, IFineService fineService)
         {
             _logger = logger;
-            _loanRepository = loanRepository;
+            _loanService = loanService;
+            _fineService = fineService;
         }
 
         [HttpGet]
@@ -23,7 +26,7 @@ namespace OneBeyondApi.Controllers
         public async Task<ActionResult<IList<LoanDetail>>> GetActiveLoans()
         {
             _logger.LogDebug($"GetActiveLoans endpoint called.");
-            var activeLoans=  await _loanRepository.GetActiveLoans();
+            var activeLoans=  await _loanService.GetActiveLoans();
 
             if (!activeLoans.Any())
                 return NotFound("No active loans available");
@@ -31,11 +34,11 @@ namespace OneBeyondApi.Controllers
         }
 
         [HttpPost("Return/{bookStockId}")]
-        public async Task<IActionResult> ReturnBook(Guid bookStockId)
+        public async Task<ActionResult<Response>> ReturnBook(Guid bookStockId)
         {
             _logger.LogDebug($"ReturnBook endpoint called with {bookStockId}.");
-            var response = await _loanRepository.ReturnBook(bookStockId);
-            return response.Flag is true ? Ok(response) : BadRequest(response);
+            var response = await _loanService.ReturnBook(bookStockId);
+            return response.Flag ? Ok(response) : BadRequest(response);
         }
     }
 }
