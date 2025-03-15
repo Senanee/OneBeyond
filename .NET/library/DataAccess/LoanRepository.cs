@@ -34,12 +34,14 @@ namespace OneBeyondApi.DataAccess
                 var bookStock = await context.Catalogue.FindAsync(bookStockId);
                 if (bookStock is null)
                     return new Response(false, $"Id not found");
-                if(!bookStock.LoanEndDate.HasValue || bookStock.OnLoanTo == null)
-                    return new Response(false, $"This book is not on loan");
-                bookStock.LoanEndDate = null;
-                bookStock.OnLoanTo = null;
-                await context.SaveChangesAsync();
-                return  new Response(true, $"Book {bookStock.Book.Name} returned successfully"); ;
+
+                var response = bookStock.ReturnBook();
+                if (response.Flag)
+                {
+                    await context.SaveChangesAsync();
+                }
+
+                return response;
             }
         }
     }
