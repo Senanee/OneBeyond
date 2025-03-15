@@ -44,5 +44,18 @@ namespace OneBeyondApi.DataAccess
                 return list.ToList();
             }
         }
+
+        public async Task<BookStock> GetBookStockById(Guid bookStockId)
+        {
+            using (var context = new LibraryContext())
+            {
+                var bookStock = await context.Catalogue
+                    .Include(x => x.Book)
+                    .ThenInclude(x => x.Author)
+                    .Include(x => x.OnLoanTo)
+                    .FirstOrDefaultAsync(x => x.Id == bookStockId);
+                return bookStock is not null ? bookStock : null!;
+            }
+        }
     }
 }
