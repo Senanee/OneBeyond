@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using OneBeyondApi;
 using OneBeyondApi.DataAccess;
 using OneBeyondApi.Service;
@@ -11,7 +10,10 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBorrowerRepository, BorrowerRepository>();
 builder.Services.AddScoped<ICatalogueRepository, CatalogueRepository>();
 builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+
 builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddScoped<IFineService, FineService>();
 
 // Seed test data into memory DB
