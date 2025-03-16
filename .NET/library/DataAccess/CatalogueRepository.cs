@@ -15,6 +15,8 @@ namespace OneBeyondApi.DataAccess
                 var list = context.Catalogue
                     .Include(x => x.Book)
                     .ThenInclude(x => x.Author)
+                    .Include(x => x.Book)
+                    .ThenInclude(x => x.Reservations)
                     .Include(x => x.OnLoanTo)
                     .ToList();
                 return list;
