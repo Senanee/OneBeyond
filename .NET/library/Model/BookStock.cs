@@ -2,10 +2,13 @@
 {
     public class BookStock
     {
+        private const decimal dailyLateFee = 1.80m;
+
         public Guid Id { get; set; }
         public Book Book { get; set; }
         public DateTime? LoanEndDate { get; set; }
         public Borrower? OnLoanTo { get; set; }
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 
         public Response ReturnBook()
         {
@@ -24,7 +27,7 @@
             if (LoanEndDate.HasValue && LoanEndDate.Value < DateTime.Now)
             {
                 var daysLate = (DateTime.Now - LoanEndDate.Value).Days;
-                return daysLate * 1.0m; // Assuming a fine of $1 per day late
+                return daysLate * dailyLateFee;
             }
             return 0;
         }
