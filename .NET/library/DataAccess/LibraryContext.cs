@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OneBeyondApi.Model;
+using System.Reflection.Metadata;
 
 namespace OneBeyondApi.DataAccess
 {
@@ -8,6 +9,15 @@ namespace OneBeyondApi.DataAccess
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase(databaseName: "AuthorDb");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>()
+                .HasMany(e => e.Reservations)
+                .WithOne()
+                .HasForeignKey(e => e.BookId)
+                .IsRequired();
         }
 
         public DbSet<Author> Authors { get; set; }

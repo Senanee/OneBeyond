@@ -8,7 +8,6 @@
         public Book Book { get; set; }
         public DateTime? LoanEndDate { get; set; }
         public Borrower? OnLoanTo { get; set; }
-        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 
         public Response ReturnBook()
         {
