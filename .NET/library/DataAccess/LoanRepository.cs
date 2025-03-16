@@ -10,10 +10,10 @@ namespace OneBeyondApi.DataAccess
             using (var context = new LibraryContext())
             {
                 var activeLoans = await context.Catalogue
-            .Where(bookStock => bookStock.LoanEndDate > DateTime.Now && bookStock.OnLoanTo != null)
-            .Include(bookStock => bookStock.OnLoanTo)
-            .Include(bookStock => bookStock.Book)
-            .GroupBy(bookStock => bookStock.OnLoanTo)
+            .Where(bs => bs.OnLoanTo != null && bs.LoanEndDate != null)
+            .Include(bs => bs.OnLoanTo)
+            .Include(bs => bs.Book)
+            .GroupBy(bs => bs.OnLoanTo)
             .Select(g => new LoanDetail
             {
                 BorrowerName = g.Key!.Name,
