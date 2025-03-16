@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OneBeyondApi.DataAccess;
 using OneBeyondApi.Model;
 using OneBeyondApi.Service;
 
 namespace OneBeyondApi.Controllers
 {
-    [Route("api/OnLoan")]
+    [Route("OnLoan")]
     [ApiController]
     public class LoanController : ControllerBase
     {
@@ -21,12 +20,11 @@ namespace OneBeyondApi.Controllers
         }
 
         [HttpGet]
-        [Route("")]
-        [Route("OnLoan")]
+        [Route("Get")]
         public async Task<ActionResult<IList<LoanDetail>>> GetActiveLoans()
         {
             _logger.LogDebug($"GetActiveLoans endpoint called.");
-            var activeLoans=  await _loanService.GetActiveLoans();
+            var activeLoans = await _loanService.GetActiveLoans();
 
             if (!activeLoans.Any())
                 return NotFound("No active loans available");
