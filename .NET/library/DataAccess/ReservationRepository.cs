@@ -7,16 +7,23 @@ namespace OneBeyondApi.DataAccess
     {
         public async Task<Response> AddReservation(Reservation reservation)
         {
-            using (var context = new LibraryContext())
+            try
             {
-                var currentEntity = context.Reservations.Add(reservation).Entity;
-                await context.SaveChangesAsync();
+                using (var context = new LibraryContext())
+                {
+                    var currentEntity = context.Reservations.Add(reservation).Entity;
+                    await context.SaveChangesAsync();
 
-                bool success = !(currentEntity is null || currentEntity.Id == Guid.Empty);
+                    bool success = !(currentEntity is null || currentEntity.Id == Guid.Empty);
 
-                return new Response(success, success
-                    ? $"Reservation created successfully on {currentEntity.DateReserved} expected collection date {currentEntity.DateOfExpectedCollection}."
-                    : "Error occurred while making the reservation");
+                    return new Response(success, success
+                        ? $"Reservation created successfully on {currentEntity.DateReserved} expected collection date {currentEntity.DateOfExpectedCollection}."
+                        : "Error occurred while making the reservation");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response(false, "Error occurred while making the reservation");
             }
         }
 

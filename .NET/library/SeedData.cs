@@ -56,7 +56,8 @@ namespace OneBeyondApi
                 EmailAddress = "liana@gmail.com"
             };
 
-            var bookOnLoanUntilToday = new BookStock {
+            var bookOnLoanUntilToday = new BookStock
+            {
                 Book = clayBook,
                 OnLoanTo = daveSmith,
                 LoanEndDate = DateTime.Now.Date
@@ -90,29 +91,6 @@ namespace OneBeyondApi
                 LoanEndDate = null
             };
 
-            var LianaJamesReservationAgileBook = new Reservation
-            {
-                Id = Guid.NewGuid(),
-                BookId = agileBook.Id,
-                Book = agileBook,
-                BorrowerId = lianaJames.Id,
-                Borrower = lianaJames,
-                DateOfExpectedCollection = DateTime.UtcNow.Date.AddDays(7),
-                BookStockId = bookOnLoanUntilNextWeek.Id,
-                BookStock = bookOnLoanUntilNextWeek
-            };
-
-            var DaveSmithReservationAgileBook = new Reservation
-            {
-                Id = Guid.NewGuid(),
-                BookId = agileBook.Id,
-                Book = agileBook,
-                BorrowerId = daveSmith.Id,
-                Borrower = daveSmith,
-                DateOfExpectedCollection = DateTime.UtcNow.Date.AddDays(21),
-                BookStockId = bookOnLoanUntilNextWeek.Id,
-                BookStock = bookOnLoanUntilNextWeek
-            };
 
             using (var context = new LibraryContext())
             {
@@ -134,10 +112,21 @@ namespace OneBeyondApi
                 context.Catalogue.Add(bookOnLoanPastDueDate);
                 context.Catalogue.Add(rustBookStock);
 
-                context.Reservations.Add(LianaJamesReservationAgileBook);
-                context.Reservations.Add(DaveSmithReservationAgileBook);
+                context.SaveChanges();
+
+                var lianaJamesReservationAgileBook = new Reservation
+                {
+                    BookId = agileBook.Id,
+                    BorrowerId = lianaJames.Id,
+                    Borrower = lianaJames,
+                    DateOfExpectedCollection = DateTime.UtcNow.Date.AddDays(7),
+                };
+
+                context.Reservations.Add(lianaJamesReservationAgileBook);
 
                 context.SaveChanges();
+
+
 
             }
         }

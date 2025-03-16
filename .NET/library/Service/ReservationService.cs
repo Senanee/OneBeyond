@@ -109,13 +109,10 @@ namespace OneBeyondApi.Service
 
             return new Reservation
             {
-                Id = Guid.NewGuid(),
                 BookId = bookId,
                 BorrowerId = borrowerId,
                 DateReserved = DateTime.UtcNow,
-                DateOfExpectedCollection = CalculateExpectedCollectionDate(earliestExpectedBookReturn, latestBookReservation?.DateOfExpectedCollection),
-                BookStockId = bookStocks.First().Id,
-                BookStock = bookStocks.First()
+                DateOfExpectedCollection = CalculateExpectedCollectionDate(earliestExpectedBookReturn, latestBookReservation?.DateOfExpectedCollection)
             };
         }
 
@@ -126,7 +123,7 @@ namespace OneBeyondApi.Service
             {
                 baseDate = latestReservationDate.Value;
             }
-            return baseDate.AddDays(ReservationDurationDays); // Assuming a 2-week loan period for the book
+            return baseDate.AddDays(ReservationDurationDays);
         }
     }
 }
