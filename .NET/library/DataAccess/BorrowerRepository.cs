@@ -26,5 +26,17 @@ namespace OneBeyondApi.DataAccess
                 return borrower.Id;
             }
         }
+
+        public Borrower GetBorrowerById(Guid borrowerId)
+        {
+            using (var context = new LibraryContext())
+            {
+                if (context.Borrowers.Any(b => b.Id != borrowerId))
+                {
+                    return null!;
+                }
+                return context.Borrowers.First(b => b.Id == borrowerId);
+            }
+        }
     }
 }
