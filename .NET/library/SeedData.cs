@@ -90,6 +90,30 @@ namespace OneBeyondApi
                 LoanEndDate = null
             };
 
+            var LianaJamesReservationAgileBook = new Reservation
+            {
+                Id = Guid.NewGuid(),
+                BookId = agileBook.Id,
+                Book = agileBook,
+                BorrowerId = lianaJames.Id,
+                Borrower = lianaJames,
+                DateOfExpectedCollection = DateTime.UtcNow.Date.AddDays(7),
+                BookStockId = bookOnLoanUntilNextWeek.Id,
+                BookStock = bookOnLoanUntilNextWeek
+            };
+
+            var DaveSmithReservationAgileBook = new Reservation
+            {
+                Id = Guid.NewGuid(),
+                BookId = agileBook.Id,
+                Book = agileBook,
+                BorrowerId = daveSmith.Id,
+                Borrower = daveSmith,
+                DateOfExpectedCollection = DateTime.UtcNow.Date.AddDays(21),
+                BookStockId = bookOnLoanUntilNextWeek.Id,
+                BookStock = bookOnLoanUntilNextWeek
+            };
+
             using (var context = new LibraryContext())
             {
                 context.Authors.Add(ernestMonkjack);
@@ -109,6 +133,9 @@ namespace OneBeyondApi
                 context.Catalogue.Add(bookOnLoanUntilNextWeek);
                 context.Catalogue.Add(bookOnLoanPastDueDate);
                 context.Catalogue.Add(rustBookStock);
+
+                context.Reservations.Add(LianaJamesReservationAgileBook);
+                context.Reservations.Add(DaveSmithReservationAgileBook);
 
                 context.SaveChanges();
 
