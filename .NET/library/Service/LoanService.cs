@@ -9,7 +9,7 @@ namespace OneBeyondApi.Service
         private readonly ICatalogueRepository _catalogueRepository;
         private readonly IFineService _fineService;
 
-        public LoanService(ILoanRepository loanRepository, ICatalogueRepository catalogueRepository, IFineService fineService   )
+        public LoanService(ILoanRepository loanRepository, ICatalogueRepository catalogueRepository, IFineService fineService)
         {
             _loanRepository = loanRepository;
             _catalogueRepository = catalogueRepository;
@@ -20,6 +20,7 @@ namespace OneBeyondApi.Service
         {
             return await _loanRepository.GetActiveLoans();
         }
+
 
         public async Task<Response> ReturnBook(Guid bookStockId)
         {
@@ -43,13 +44,12 @@ namespace OneBeyondApi.Service
                 await _loanRepository.ReturnBook(bookStock);
             }
 
-            if(response.Flag && fineAmount > 0)
+            if (response.Flag && fineAmount > 0)
             {
-                response.Message = response.Message + $", Please note you have incurred £{fineAmount} as fines for late return of this book.";
+                response.Message += $", Please note you have incurred £{fineAmount} as fines for late return of this book.";
             }
 
             return response;
         }
     }
-
 }

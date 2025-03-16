@@ -32,9 +32,7 @@ namespace OneBeyondApi.DataAccess
             {
                 context.Catalogue.Update(bookStock);
                 await context.SaveChangesAsync();
-
             }
         }
-
     }
 }

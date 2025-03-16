@@ -2,7 +2,6 @@
 
 namespace OneBeyondApi.Service
 {
-
     public class FineService : IFineService
     {
         public Fine GenerateFine(Borrower borrower, BookStock bookStock, decimal amount)
