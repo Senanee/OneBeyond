@@ -31,7 +31,7 @@ namespace OneBeyondApi.DataAccess
         {
             using (var context = new LibraryContext())
             {
-                if (!context.Borrowers.Any(b => b.Id != borrowerId))
+                if (!context.Borrowers.Any(b => b.Id == borrowerId))
                 {
                     return null!;
                 }
